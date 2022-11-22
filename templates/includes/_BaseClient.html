@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="sekou SONOMOU">
+	<link rel="shortcut icon" href="{% static 'assets-blog/favicon.png' %}">
+
+	<meta name="description" content="Blog personnel" />
+	<meta name="keywords" content="Linux, Windows server, web, developpement, reseau, securite, bdd " />
+
+	<link rel="stylesheet" href="{% static 'assets-blog/fonts/icomoon/style.css' %} ">
+	<link rel="stylesheet" href="{% static 'assets-blog/fonts/flaticon/font/flaticon.css' %}">
+
+	<link rel="stylesheet" href="{% static 'assets-blog/css/tiny-slider.css' %}">
+	<link rel="stylesheet" href="{% static 'assets-blog/css/aos.css' %}">
+	<link rel="stylesheet" href="{% static 'assets-blog/css/glightbox.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets-blog/css/style.css' %}">
+
+	<link rel="stylesheet" href="{% static 'assets-blog/css/flatpickr.min.css' %}">
+
+
+	<title>{% block title %}{% endblock title %} | S.SONOMOU</title>
+</head>
+<body>
+
+	<div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+	<!--	nav-->
+	{% include 'includes/_nav.html' %}
+
+      {% block content %}{% endblock content %}
+
+	<!--	footer-->
+	{% include 'includes/_footer.html' %}
+
+   <!-- Preloader -->
+    <div id="overlayer"></div>
+    <div class="loader">
+    	<div class="spinner-border text-primary" role="status">
+    		<span class="visually-hidden">Loading...</span>
+    	</div>
+    </div>
+
+
+    <script src="{% static 'assets-blog/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'assets-blog/js/tiny-slider.js'%}"></script>
+
+    <script src="{% static 'assets-blog/js/flatpickr.min.js'%}"></script>
+
+
+    <script src="{% static 'assets-blog/js/aos.js'%}"></script>
+    <script src="{% static 'assets-blog/js/glightbox.min.js'%}"></script>
+    <script src="{% static 'assets-blog/js/navbar.js'%}"></script>
+    <script src="{% static 'assets-blog/js/counter.js'%}"></script>
+    <script src="{% static 'assets-blog/js/custom.js'%}"></script>
+
+
+  </body>
+  </html>
+

@@ -1,0 +1,27 @@
+{% comment %}
+<!--blog pagination area start-->
+{% endcomment %}
+
+          <div class="row text-start pt-5 border-top">
+            <div class="col-md-12">
+              <div class="custom-pagination">
+
+                {% if page.has_previous %}
+                <a href="?page={{page.previous_page_number}}"><< </a>
+                {% endif %}
+
+                <a href="#!">{{page.number}}</a>
+                {% if page.paginator.num_pages != page.number %}
+                <a href="#!">of</a>
+                <a href="#!">{{page.paginator.num_pages}}</a>
+                {% endif %}
+
+                {% if page.has_next %}
+                <a href="?page={{page.next_page_number}}"> >> </a>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+
+

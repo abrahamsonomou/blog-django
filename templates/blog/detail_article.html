@@ -1,0 +1,216 @@
+{% extends 'includes/_BaseClient.html' %}
+{% block title %}Details article{% endblock title %}
+{% block content %}
+
+ <div class="site-cover site-cover-sm same-height overlay single-page" style="background-image: url(
+ {% if article.bg  %}
+  '{{article.bg.url}}'
+  {% endif %}
+<!-- 'images/hero_5.jpg'-->
+  );">
+    <div class="container">
+      <div class="row same-height justify-content-center">
+        <div class="col-md-6">
+          <div class="post-entry text-center">
+            <h1 class="mb-4">{{article.titre}}</h1>
+            <div class="post-meta align-items-center text-center">
+              <figure class="author-figure mb-0 me-3 d-inline-block">
+                {% if article.auteur.photo  %}
+                <img src="{{article.auteur.photo.url}}" alt="Image" class="img-fluid">
+                {% endif %}
+              </figure>
+              <span class="d-inline-block mt-1">By
+              {% if article.auteur.first_name  %}
+              {{article.auteur.first_name}} {{article.auteur.last_name}}
+              {% else %}
+              {{article.auteur.username}}
+              {% endif %}
+              </span>
+              <span>&nbsp;-&nbsp; {{article.created}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="row blog-entries element-animate">
+
+        <div class="col-md-12 col-lg-8 main-content">
+
+          <div class="post-content-body">
+            {% comment %} contenu de l'artcle {% endcomment %}
+            {{ article.description.html|safe}}
+          </div>
+
+
+          <div class="pt-5">
+            <p>Categorie:  <a href="#">{{article.categorie}}</a>  Tags: <a href="#">#manila</a>, <a href="#">#asia</a></p>
+          </div>
+
+
+          <div class="pt-5 comment-wrap">
+            {% with comments.count as total_comments %}
+            <h3 class="mb-5 heading">{{ total_comments }} comment{{ total_comments|pluralize }}</h3>
+            {% endwith %}
+
+            {% if comments %}
+            <ul class="comment-list">
+                {% for comment in comments %}
+              <li class="comment">
+                <div class="vcard">
+                   {% if comment.cauthor.photo  %}
+                 <img src="{{comment.cauthor.photo.url}}" alt="Image" class="img-fluid">
+                {% endif %}
+                </div>
+                <div class="comment-body">
+              {% if comment.cauthor.first_name  %}
+              {{comment.cauthor.first_name}} {{comment.cauthor.last_name}}
+              {% else %}
+              {{comment.cauthor.username}}
+              {% endif %}
+                  <div class="meta">{{comment.updated}}</div>
+                  <p>{{comment.body}}</p>
+<!--                  <p><a href="#" class="reply rounded">Reply</a></p>-->
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <h5>No Comments in this blog</h5>
+                {% endif %}
+            <!-- END comment-list -->
+
+<!--            {% if request.user.is_authenticated %}-->
+            <div class="comment-form-wrap pt-5">
+              <h3 class="mb-5">Leave a comment</h3>
+              <form action="{% url 'comment' %}" class="p-5 bg-light" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="pk" id="article_id" value="{{article.pk}}">
+                <div class="form-group">
+                  <label for="name">Name *</label>
+                  <input type="text" class="form-control" id="name" required name="name">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email *</label>
+                  <input type="email" class="form-control" id="email" required name="email">
+                </div>
+
+
+                <div class="form-group">
+                  <label for="comment">Message</label>
+                  <textarea name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                  <input type="submit" value="Post Comment" class="btn btn-primary">
+                </div>
+
+              </form>
+            </div>
+<!--            {% endif %}-->
+          </div>
+
+        </div>
+
+        <!-- END main-content -->
+
+        <div class="col-md-12 col-lg-4 sidebar">
+          <div class="sidebar-box search-form-wrap">
+            <form action="{% url 'search_article' %}" class="sidebar-search-form" method="post">
+              {% csrf_token %}
+              <span class="bi-search"></span>
+              <input type="text" class="form-control" id="s" name="article" placeholder="Type a keyword and hit enter">
+            </form>
+          </div>
+          <!-- END sidebar-box -->
+          <div class="sidebar-box">
+            <div class="bio text-center">
+                {% if article.auteur.photo  %}
+                <img src="{{article.auteur.photo.url}}" alt="Image" class="img-fluid">
+                {% endif %}
+              <div class="bio-body">
+            <h2>
+              {% if article.auteur.first_name  %}
+              {{article.auteur.first_name}} {{article.auteur.last_name}}
+              {% else %}
+              {{article.auteur.username}}
+              {% endif %}
+                </h2>
+                <p class="mb-4">
+              {% if article.auteur.resume  %}
+              {{article.auteur.resume}}
+              {% endif %}
+                </p>
+                <p><a href="#" class="btn btn-primary btn-sm rounded px-2 py-2">Read my bio</a></p>
+                <p class="social">
+                  <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
+                  <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
+                  <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
+                  <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- END sidebar-box -->
+          <div class="sidebar-box">
+            <h3 class="heading">Popular Posts</h3>
+            <div class="post-entry-sidebar">
+              <ul>
+                  {% for article in article_en_relation %}
+								<li>
+									<a href="{% url 'detail_article' article.pk %}">
+
+									{% if article.image  %}
+									<img src="{{article.image.url}}" alt="Image placeholder" class="me-4 rounded">
+										{% endif %}
+										<div class="text">
+											<h4>{{article.titre|truncatechars:100}}</h4>
+											<div class="post-meta">
+												<span class="mr-2">{{article.created}}</span>
+											</div>
+										</div>
+									</a>
+								</li>
+							{% endfor %}
+              </ul>
+            </div>
+          </div>
+          <!-- END sidebar-box -->
+
+          <div class="sidebar-box">
+            <h3 class="heading">Categories</h3>
+            <ul class="categories">
+              <li><a href="#">Windows Server<span>({{nb_windows}})</span></a></li>
+              <li><a href="#">Linux <span>({{nb_linux}})</span></a></li>
+              <li><a href="#">Developpement <span>({{nb_dev}})</span></a></li>
+            </ul>
+          </div>
+
+          <div class="sidebar-box">
+            <h3 class="heading">Tags</h3>
+            <ul class="tags">
+              <li><a href="#">Travel</a></li>
+              <li><a href="#">Adventure</a></li>
+              <li><a href="#">Food</a></li>
+              <li><a href="#">Lifestyle</a></li>
+              <li><a href="#">Business</a></li>
+              <li><a href="#">Freelancing</a></li>
+              <li><a href="#">Travel</a></li>
+              <li><a href="#">Adventure</a></li>
+              <li><a href="#">Food</a></li>
+              <li><a href="#">Lifestyle</a></li>
+              <li><a href="#">Business</a></li>
+              <li><a href="#">Freelancing</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- END sidebar -->
+
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}

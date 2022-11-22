@@ -1,0 +1,46 @@
+	<!-- Start posts-entry -->
+	<section class="section posts-entry">
+		<div class="container">
+			<div class="row mb-4">
+				<div class="col-sm-6">
+					<h2 class="posts-entry-title">Linux</h2>
+				</div>
+				<div class="col-sm-6 text-sm-end"><a href="{% url 'articles'  %}" class="read-more">View All</a></div>
+			</div>
+			<div class="row g-3">
+				<div class="col-md-9 order-md-2">
+					<div class="row g-3">
+					{% for article in recent_linux2 %}
+						<div class="col-md-6">
+							<div class="blog-entry">
+								{% if article.image  %}
+								<a href="{% url 'detail_article' article.pk %}" class="img-link">
+									<img src="{{article.image.url}}" alt="Image" class="img-fluid">
+								</a>
+								{% endif %}
+								<span class="date">{{article.updated}}</span>
+								<h2><a href="{% url 'detail_article' article.pk %}">{{article.titre}}</a></h2>
+								<p>{{article.body|truncatechars:100}}</p>
+								<p><a href="{% url 'detail_article' article.pk %}" class="btn btn-sm btn-outline-primary">Read More</a></p>
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+				<div class="col-md-3">
+					<ul class="list-unstyled blog-entry-sm">
+
+						{% for article in recent_linux1 %}
+						<li>
+							<span class="date">{{article.updated}}</span>
+							<h3><a href="{% url 'detail_article' article.pk %}">{{article.titre}}</a></h3>
+							<p>{{article.body|truncatechars:100}}</p>
+							<p><a href="{% url 'detail_article' article.pk %}" class="read-more">Continue Reading</a></p>
+						</li>
+						{% endfor %}
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>

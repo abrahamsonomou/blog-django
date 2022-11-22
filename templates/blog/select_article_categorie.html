@@ -1,0 +1,113 @@
+{% extends 'includes/_BaseClient.html' %}
+{% block title %}Blog{% endblock title %}
+{% block content %}
+  <div class="hero overlay inner-page bg-primary py-5">
+    <div class="container">
+      <div class="row align-items-center justify-content-center text-center pt-5">
+        <div class="col-lg-6">
+          <h1 class="heading text-white mb-3" data-aos="fade-up">Categorie : {{categorie}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section search-result-wrap">
+    <div class="container">
+
+      <div class="row posts-entry">
+        <div class="col-lg-8">
+
+            {% for article in articles %}
+          <div class="blog-entry d-flex blog-entry-search-item">
+            <a href="{% url 'detail_article' article.pk %}" class="img-link me-4">
+                {% if article.image  %}
+                <img src="{{article.image.url}}" alt="Image" class="img-fluid">
+                {% endif %}
+            </a>
+            <div>
+              <span class="date">{{article.created}} &bullet; <a href="#">{{article.categorie}}</a></span>
+              <h2><a href="{% url 'detail_article' article.pk %}">{{article.titre}}</a></h2>
+              <p>{{article.body|truncatechars:100}}</p>
+              <p><a href="{% url 'detail_article' article.pk %}" class="btn btn-sm btn-outline-primary">Read More</a></p>
+            </div>
+          </div>
+        {% endfor %}
+    {% comment %} inclusion de la pagination {% endcomment %}
+	 {% if articles|length %}
+          <!-- Pagination -->
+          {% include "includes/_pagination.html" with page=articles %}
+
+     {% endif %}
+
+
+
+        </div>
+
+        <div class="col-lg-4 sidebar">
+
+          <div class="sidebar-box search-form-wrap mb-4">
+            <form action="{% url 'search_article' %}" class="sidebar-search-form" method="post">
+              {% csrf_token %}
+              <span class="bi-search"></span>
+              <input type="text" class="form-control" id="s" name="article" placeholder="Type a keyword and hit enter">
+            </form>
+          </div>
+          <!-- END sidebar-box -->
+          <div class="sidebar-box">
+            <h3 class="heading">Popular Posts</h3>
+            <div class="post-entry-sidebar">
+              <ul>
+                {% for article in recent_article %}
+								<li>
+									<a href="{% url 'detail_article' article.pk %}">
+
+									{% if article.image  %}
+									<img src="{{article.image.url}}" alt="Image placeholder" class="me-4 rounded">
+										{% endif %}
+										<div class="text">
+											<h4>{{article.titre|truncatechars:100}}</h4>
+											<div class="post-meta">
+												<span class="mr-2">{{article.created}}</span>
+											</div>
+										</div>
+									</a>
+								</li>
+							{% endfor %}
+              </ul>
+            </div>
+          </div>
+          <!-- END sidebar-box -->
+
+          <div class="sidebar-box">
+            <h3 class="heading">Categories</h3>
+            <ul class="categories">
+              <li><a href="#">Windows Server<span>({{nb_windows}})</span></a></li>
+              <li><a href="#">Linux <span>({{nb_linux}})</span></a></li>
+              <li><a href="#">Developpement <span>({{nb_dev}})</span></a></li>
+            </ul>
+          </div>
+          <!-- END sidebar-box -->
+
+          {% comment %} <div class="sidebar-box">
+            <h3 class="heading">Tags</h3>
+            <ul class="tags">
+              <li><a href="#">Travel</a></li>
+              <li><a href="#">Adventure</a></li>
+              <li><a href="#">Food</a></li>
+              <li><a href="#">Lifestyle</a></li>
+              <li><a href="#">Business</a></li>
+              <li><a href="#">Freelancing</a></li>
+              <li><a href="#">Travel</a></li>
+              <li><a href="#">Adventure</a></li>
+              <li><a href="#">Food</a></li>
+              <li><a href="#">Lifestyle</a></li>
+              <li><a href="#">Business</a></li>
+              <li><a href="#">Freelancing</a></li>
+            </ul>
+          </div> {% endcomment %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,52 @@
+	<nav class="site-nav">
+		<div class="container">
+			<div class="menu-bg-wrap">
+				<div class="site-navigation">
+					<div class="row g-0 align-items-center">
+						<div class="col-2">
+							<a href="{% url 'index'  %}" class="logo m-0 float-start">S.SONOMOU<span class="text-primary">.</span></a>
+						</div>
+						<div class="col-8 text-center">
+							<form action="#" class="search-form d-inline-block d-lg-none">
+								<input type="text" class="form-control" placeholder="Search...">
+								<span class="bi-search"></span>
+							</form>
+
+							<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu mx-auto">
+								<li class="active"><a href="{% url 'index'  %}">Acceuil</a></li>
+								<li class="has-children">
+									<a href="{% url 'articles'  %}">Blog</a>
+									<ul class="dropdown">
+										{% for categorie in categories %}
+										<li><a href="{% url 'select_article_categorie' categorie.pk %}">{{categorie.nom_categorie}}</a></li>
+										{% endfor %}
+									</ul>
+								</li>
+<!--									<li class="has-children">-->
+<!--									<a href="">Tutoriels</a>-->
+<!--									<ul class="dropdown">-->
+<!--										<li><a href="blog.html">Blog</a></li>-->
+<!--										<li><a href="blog.html">Blog</a></li>-->
+<!--									</ul>-->
+<!--								</li>-->
+<!--								<li><a href="category.html">A propos</a></li>-->
+								{% comment %} <li><a href="category.html">Portfolio</a></li> {% endcomment %}
+								{% comment %} <li><a href="{% url 'contact' %}">Contact</a></li> {% endcomment %}
+								{% if user.is_authenticated %}
+                            	{% if user.is_active %}
+								<li><a href="{% url 'logout' %}">Donnnexion</a></li>
+								{% endif %}
+                            	{% else %}
+								<li><a href="{% url 'login' %}">Connnexion</a></li>
+								{% endif %}
+							</ul>
+						</div>
+
+						  {% comment %} inclusion de la recherche {% endcomment %}
+                        {% include 'includes/_recherche_articles.html' %}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>

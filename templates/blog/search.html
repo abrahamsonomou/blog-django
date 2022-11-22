@@ -1,0 +1,60 @@
+{% extends 'includes/_BaseClient.html' %}
+{% block title %}Recherche articles{% endblock title %}
+{% block content %}
+	<div class="section search-result-wrap">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="heading">Search: {{q}}</div>
+				</div>
+			</div>
+			  <div class="section search-result-wrap">
+    <div class="container">
+
+      <div class="row posts-entry">
+        <div class="col-lg-12">
+
+            <div class="row">
+				{% for article in articles %}
+				<div class="col-lg-4 mb-4">
+					<div class="post-entry-alt">
+						{% if article.image  %}
+						<a href="{% url 'detail_article' article.pk %}" class="img-link">
+							<img src="{{article.image.url}}" alt="{{article.titre}}" class="img-fluid">
+						</a>
+						{% endif %}
+						<div class="excerpt">
+
+
+							<h2><a href="{% url 'detail_article' article.pk %}">{{article.titre}}</a></h2>
+							<div class="post-meta align-items-center text-left clearfix">
+								<figure class="author-figure mb-0 me-3 float-start">
+									{% if article.auteur.photo  %}
+									<img src="{{article.auteur.photo.url}}" alt="Image" class="img-fluid">
+									{% endif %}
+								</figure>
+								<span class="d-inline-block mt-1">By <a href="#">
+									{% if article.auteur.username  %}
+									{{article.auteur.username}}
+									{% else %}
+									{{article.auteur.first_name}} {{article.auteur.last_name}}
+									{% endif %}
+								</a></span>
+								<span>&nbsp;-&nbsp;{{article.created}}</span>
+							</div>
+							<p>{{article.body|truncatechars:100}}</p>
+							<p><a href="{% url 'detail_article' article.pk %}" class="read-more">Continue Reading</a></p>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+		</div>
+	</div>
+{% endblock content %}

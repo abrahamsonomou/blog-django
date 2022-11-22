@@ -1,0 +1,10 @@
+<div class="col-2 text-end">
+							<a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
+								<span></span>
+							</a>
+							<form action="{% url 'search' %}" class="search-form d-none d-lg-inline-block" method="post">
+								{% csrf_token %}
+								<input type="text" class="form-control" placeholder="Search..." name="q">
+								<span class="bi-search"></span>
+							</form>
+						</div>
